@@ -1,8 +1,7 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
-
 //dibuja la plantilla de la vista
-inicioCabecera("APLICACION PRIMER TRIMESTRE");
+inicioCabecera("Ej1 Libreria path");
 cabecera();
 finCabecera();
 inicioCuerpo("2DAW APLICACION");
@@ -11,17 +10,19 @@ finCuerpo();
 // **********************************************************
 
 //vista
-function cabecera() 
-{}
+function cabecera() {
+
+    ?>
+    <!-- esto va en el head -->
+    <?php
+
+}
 
 //vista
 function cuerpo()
 {
 ?>
     <br><br>
-    Elemento de pruebas
-    <br><br>
-    <a href="basicas.php">Funcionamiento basico</a>   
-    <a href="pasopar.php">Paso parametros</a>   
+    <a href="./aplicacion/pruebas/index.php">Acceso a pruebas</a>
 <?php
 }

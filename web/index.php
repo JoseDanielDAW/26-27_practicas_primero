@@ -15,14 +15,21 @@ finCuerpo();
 
 //vista
 function cabecera() 
-{}
+{
+    ?>
+
+    <?php
+
+
+}
 
 //vista
 function cuerpo()
 {
 ?>
     <br><br>
-    Hola, estás en Index.php
+    Elementos de pruebas
+    <br><br>
     <a href="./aplicacion/pruebas/index.php">Acceso a pruebas</a>
 <?php
 }
