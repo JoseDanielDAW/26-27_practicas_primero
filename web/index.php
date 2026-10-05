@@ -27,9 +27,14 @@ function cabecera()
 function cuerpo()
 {
 ?>
+    <nav class="barra-ubicacion">
+    <span>Inicio</span>
+    </nav>
     <br><br>
-    Elementos de pruebas
+    Relaciones de ejercicios
     <br><br>
-    <a href="./aplicacion/pruebas/index.php">Acceso a pruebas</a>
+    <a href="./aplicacion/relacion1/index.php">Acceso a relación 1</a>
+
+
 <?php
 }
