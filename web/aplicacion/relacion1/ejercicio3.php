@@ -16,16 +16,83 @@ function arrays () {
     $miArray["tres"] = 1.345;   
     $miArray[] = $arrayRelleno;
     
-    foreach($miArray as $elem) {
-        if (is_array($elem)) {
-            foreach ($elem as $dato) {
-                echo $dato . "<br>";
-            }
+   return $miArray;
+}
+
+function arraysArray() {
+
+    $miArray = array(
+        1 => 67,
+        16 => 69,
+        54 => 88,
+        34,
+        "uno" => "cadena",
+        "dos" => true,
+        "tres" => 1.345,
+        "ultima" => [1,34,"nueva"]
+    );
+
+    return $miArray;
+}
+
+function arraysCorchetes() {
+
+    $miArray = [
+        1 => 67,
+        16 => 69,
+        54 => 88,
+        34,
+        "uno" => "cadena",
+        "dos" => true,
+        "tres" => 1.345,
+        "ultima" => [1,34,"nueva"]
+    ];
+
+    return $miArray;
+}
+
+function mostrarArray () {
+     
+    $cadena = "";
+    $miArray = arrays();
+    $miArrayArrays = arraysArray();
+    $miArrayCorchetes = arraysCorchetes();
+    
+    foreach ($miArray as $elem) {
+        if (is_array($elem))
+           foreach ($elem as $dato) {
+            $cadena .= $dato . "<br>";
         }
-        else {
-            echo $elem . "\n";
-        }
+
+        else
+            $cadena .= $elem . "<br>";
     }
+
+    $cadena .= "<br>";
+
+     foreach ($miArrayArrays as $elem) {
+        if (is_array($elem))
+           foreach ($elem as $dato) {
+            $cadena .= $dato . "<br>";
+        }
+
+        else
+            $cadena .= $elem . "<br>";
+    }
+
+    $cadena .= "<br>";
+
+     foreach ($miArrayCorchetes as $elem) {
+        if (is_array($elem))
+           foreach ($elem as $dato) {
+            $cadena .= $dato . "<br>";
+        }
+
+        else
+            $cadena .= $elem . "<br>";
+    }
+
+    return $cadena;
 }
 
 $usuario = getenv("MYSQL_USER");
@@ -64,6 +131,7 @@ function cuerpo()
 
 <?php
 
-    arrays();
+    echo "<br>";
+    echo mostrarArray();
    
 }

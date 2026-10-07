@@ -11,7 +11,7 @@ function lanzamientoDado() {
     $max = 6;
     $arrayLanzamientos = [];
 
-    for ($i=0;$i<=6;$i++) {
+    for ($i=0;$i<6;$i++) {
         $arrayLanzamientos[$i] = mt_rand($min,$max);
     }
 
