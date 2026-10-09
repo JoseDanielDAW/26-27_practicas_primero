@@ -4,25 +4,18 @@ include_once(dirname(__FILE__) . "/../../cabecera.php");
 
 const FILAS = 5;
 
-function generarArray() {
+function generarArray()
+{
+    
+   $miArray = [];
 
-    $miArray = [];
-
-    for ($i=1;$i<=FILAS;$i++) {
-        $miArray[$i] = $i;
+    for ($i=0;$i<=FILAS;$i++) {
+        for($j=0;$j<$i;$j++){
+            $miArray[$i][$j] = $i;  
+        }
     }
 
     return $miArray;
-
-}
-
-function dibujarArray() {
-
-    $string = "";
-    $array = generarArray();
-
-    
-    return $string;
 }
 
 $usuario = getenv("MYSQL_USER");
@@ -52,18 +45,21 @@ function cuerpo()
 ?>
 
     <nav class="barra-ubicacion">
-    <a href="../../index.php">Inicio</a>
-    <span>&gt;</span>
-    <a href="index.php">Relación 1</a>
-    <span>&gt;</span>
-    <span>Ejercicio 4</span>
+        <a href="../../index.php">Inicio</a>
+        <span>&gt;</span>
+        <a href="index.php">Relación 1</a>
+        <span>&gt;</span>
+        <span>Ejercicio 4</span>
     </nav>
 
 <?php
+
     $array = generarArray();
 
-   foreach ($array as $elem) {
-    echo $elem ."<br>";
-   }
-   
+    foreach ($array as $elem) {
+        echo "<br>";
+        foreach ($elem as $elem2) {
+            echo $elem2;
+        }
+    }
 }

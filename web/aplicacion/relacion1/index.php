@@ -33,7 +33,7 @@ function cuerpo()
     <span>Relación 1</span>
     </nav>
     <br>
-    Ejercicios de la relación 1
+    Ejercicios de la relación 1:
     <br><br>
     <a href="./ejercicio1.php">Acceso a ejercicio 1</a>
     <br>
@@ -51,5 +51,8 @@ function cuerpo()
     <br>
     <br>
     <a href="./ejercicio6.php">Acceso a ejercicio 6</a>
+    <br>
+    <br>
+    <a href="./ejercicio7.php">Acceso a ejercicio 7</a>
 <?php
 }
