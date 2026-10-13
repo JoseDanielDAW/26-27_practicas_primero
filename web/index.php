@@ -34,7 +34,9 @@ function cuerpo()
     Relaciones de ejercicios
     <br><br>
     <a href="./aplicacion/relacion1/index.php">Acceso a relación 1</a>
-
+    <br>
+    <br>
+    <a href="./aplicacion/relacion2/index.php">Acceso a relación 2</a>
 
 <?php
 }
