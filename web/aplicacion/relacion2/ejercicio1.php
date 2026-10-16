@@ -29,13 +29,26 @@ function cuerpo()
 ?>
 
     <nav class="barra-ubicacion">
-    <a href="../../index.php">Inicio</a>
-    <span>&gt;</span>
-    <a href="index.php">Relación 2</a>
-    <span>&gt;</span>
-    <span>Ejercicio 1</span>
+        <a href="../../index.php">Inicio</a>
+        <span>&gt;</span>
+        <a href="index.php">Relación 2</a>
+        <span>&gt;</span>
+        <span>Ejercicio 1</span>
     </nav>
 
 <?php
-   echo "hola";
+
+    $var = "cadena";
+
+    $texto = <<<fin
+        Esta es una cadena 
+    fin;
+
+    $var = <<<'fin'
+        Esta es otra cadena 
+    fin;
+
+    echo $texto;
+    echo "<br>";
+    echo $var;
 }
