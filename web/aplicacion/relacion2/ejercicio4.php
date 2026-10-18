@@ -29,13 +29,27 @@ function cuerpo()
 ?>
 
     <nav class="barra-ubicacion">
-    <a href="../../index.php">Inicio</a>
-    <span>&gt;</span>
-    <a href="index.php">Relación 2</a>
-    <span>&gt;</span>
-    <span>Ejercicio 4</span>
+        <a href="../../index.php">Inicio</a>
+        <span>&gt;</span>
+        <a href="index.php">Relación 2</a>
+        <span>&gt;</span>
+        <span>Ejercicio 4</span>
     </nav>
 
 <?php
-   echo "hola";
+
+    // He hecho el ejercicio en la vista directamente porque es muy corto
+
+    $numero1 = 17.5;
+    $numero2 = 379987.24;
+
+    // Primer valorr (relleno con 0)
+    $valor1 = number_format($numero1, 1, ',', '');
+    $valor1 = str_pad($valor1, 15, '0', STR_PAD_LEFT);
+
+    // Segundo valor (con espacios)
+    $valor2 = number_format($numero2, 2, ',', '.');
+    $valor2 = str_pad($valor2, 15, ' ', STR_PAD_LEFT);
+
+    echo "el primer valor -" . $valor1 . "-, el segundo valor -" . $valor2 . "-";
 }

@@ -30,7 +30,7 @@ function cuerpo()
     <nav class="barra-ubicacion">
     <a href="../../index.php">Inicio</a>
     <span>&gt;</span>
-    <span>Relación 1</span>
+    <span>Relación 2</span>
     </nav>
     <br>
     Ejercicios de la relación 2:

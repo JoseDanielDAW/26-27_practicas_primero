@@ -38,6 +38,7 @@ function cuerpo()
 
 <?php
 
+    // Como es corto lo he hecho en la vista directamente
     $var = "cadena";
 
     $texto = <<<fin

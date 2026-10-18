@@ -21,24 +21,26 @@ body {
     padding-left: 3%;
 }
 
+
 #cabecera {
     background-color: #2563eb;
     color: white;
     padding: 25px 30px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    display: flex; 
+    flex-direction: row; 
+    align-items: center; 
+    gap: 15px; 
 }
 
 #cabecera #logo {
-    width: 75px;
-    height: 50px;
+    width: 100px; 
+    height: auto;
     object-fit: contain;
 }
 
 #cabecera #titulo {
-    font-size: 1.5em;
-    font-style: italic;
+    margin: 0;
+    font-size: 1.8em;
     font-weight: bold;
 }
 
@@ -160,3 +162,24 @@ body {
     border-radius: 7px;
 }
 
+
+#cabeceraPrincipal {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#puntoSeguro {
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+#puntoSeguro img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+#cabeceraPrincipal #titulo {
+    margin: 0;
+}
