@@ -3,7 +3,7 @@ include_once(dirname(__FILE__) . "/../../cabecera.php");
 include_once("libreria.php");
 //controlador
 // Variables
-
+$numero = 5;
 
 $usuario = getenv("MYSQL_USER");
 
@@ -12,7 +12,7 @@ inicioCabecera("APLICACION PRIMER TRIMESTRE");
 cabecera();
 finCabecera();
 inicioCuerpo("2DAW APLICACION");
-cuerpo();  //llamo a la vista
+cuerpo($numero);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -27,7 +27,7 @@ function cabecera()
 }
 
 //vista
-function cuerpo()
+function cuerpo(int $numero)
 {
 ?>
 
@@ -41,6 +41,11 @@ function cuerpo()
 
 <?php
 
+// Generar cadena aleatoria con variable $numero
+echo generarCadenas($numero);
 
+echo "<br>";
 
+// Generar cadena aleatoria por defecto(10)
+echo generarCadenas();
 }

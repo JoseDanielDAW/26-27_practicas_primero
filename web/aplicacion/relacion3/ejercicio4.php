@@ -38,7 +38,12 @@ function cuerpo()
     </nav>
 
 <?php
-
-
-
+echo "<br>";
+echo devuelve(5,4,3);
+echo "<br>";
+echo devuelve(5);
+echo "<br>";
+echo devuelve(5,4);
+echo "<br>";
+echo devuelve(5,3);
 }

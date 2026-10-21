@@ -39,6 +39,9 @@ function cuerpo()
 
 <?php
 
-
+// Llamo a la función directamente en la vista
+echo operaciones(1,1,2,3,4);
+echo "<br>";
+echo operaciones (4,1,2,3,4);
 
 }
