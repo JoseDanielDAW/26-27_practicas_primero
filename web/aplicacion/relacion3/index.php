@@ -50,9 +50,9 @@ function cuerpo()
     <a href="./ejercicio5.php">Acceso a ejercicio 5</a>
     <br>
     <br>
-    <a href="./ejercicio4.php">Acceso a ejercicio 6</a>
+    <a href="./ejercicio6.php">Acceso a ejercicio 6</a>
     <br>
     <br>
-    <a href="./ejercicio4.php">Acceso a ejercicio 7</a>
+    <a href="./ejercicio7.php">Acceso a ejercicio 7</a>
 <?php
 }

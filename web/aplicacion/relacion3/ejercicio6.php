@@ -39,6 +39,26 @@ function cuerpo()
 
 <?php
 
+    echo llamadaAFuncion(2,2,fn($a,$b)=>$a+$b);
+    echo "<br>";
+    echo llamadaAFuncion(2,2,fn($a,$b)=>$a-$b);
+    echo "<br>";
+    echo llamadaAFuncion(2,2,fn($a,$b)=>$a*$b);
+    echo "<br>";
+    $fn1 = function($a,$b) {
+        return $a+$b;
+    };
+        $fn2 = function($a,$b) {
+        return $a-$b;
+    };
+        $fn3 = function($a,$b) {
+        return $a*$b;
+    };
 
+    echo llamadaAFuncion(2,2,$fn1);
+    echo "<br>";
+    echo llamadaAFuncion(2,2,$fn2);
+    echo "<br>";
+    echo llamadaAFuncion(2,2,$fn3);
 
 }

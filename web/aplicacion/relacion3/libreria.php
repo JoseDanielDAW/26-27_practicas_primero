@@ -82,14 +82,37 @@ function devuelve(int $num,int $num2 = 2,int $num3 = 3) {
   return $num * $num2 * $num3;
 }
 
-function suma() {}
+function suma(int $num,int $num2) {
+  return $num + $num2;
+}
 
-function resta() {}
+function resta(int $num,int $num2) {
+  return $num - $num2;
+}
 
-function multiplicacion() {}
+function multiplicacion(int $num,int $num2) {
+  return $num * $num2;
+}
 
-function hacerOperacion() {}
+function hacerOperacion(string $cadena,int $num,int $num2) {
 
-function llamadaAFuncion() {}
+  if (strcmp($cadena,"suma") == 0) {
+    return $num + $num2;
+  }
+  else if (strcmp($cadena,"resta") == 0) {
+  return $num - $num2;
+  }
+  else if (strcmp($cadena,"multiplicacion") == 0) {
+    return $num * $num2;
+  }
 
-function ordenar() {}
+  else {return false;}
+}
+
+function llamadaAFuncion(int $num1,int $num2,callable $callback) {
+  return $callback($num1,$num2);
+}
+
+function ordenar(array $array) {
+  
+}

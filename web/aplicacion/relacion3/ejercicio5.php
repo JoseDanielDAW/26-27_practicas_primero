@@ -39,6 +39,12 @@ function cuerpo()
 
 <?php
 
-
-
+echo "<br>";
+echo suma(4,3);
+echo "<br>";
+echo resta(5,4);
+echo "<br>";
+echo multiplicacion(5,5);
+echo "<br>";
+echo hacerOperacion("suma",5,5);
 }
