@@ -113,6 +113,10 @@ function llamadaAFuncion(int $num1,int $num2,callable $callback) {
   return $callback($num1,$num2);
 }
 
-function ordenar(array $array) {
-  
-}
+function ordenar(array &$array) {
+    usort($array,function ($a, $b) {
+      $longA = strlen($a);
+      $longB = strlen($b);
+      return $longB <=> $longA;
+    });
+  }

@@ -39,6 +39,12 @@ function cuerpo()
 
 <?php
 
+echo "<br>";
+$vector=array("uno","grande","caminos","a");
+ordenar($vector);
 
+foreach ($vector as $i) {
+    echo $i . "<br>";
+}
 
 }
