@@ -1,32 +1,30 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 include_once("libreria.php");
-//controlador
-// Variables
+
+// Controlador
+
+// Guardo el número que voy a utilizar para generar la cadena
 $numero = 5;
 
-$usuario = getenv("MYSQL_USER");
-
-//dibuja la plantilla de la vista
 inicioCabecera("APLICACION PRIMER TRIMESTRE");
 cabecera();
 finCabecera();
-inicioCuerpo("2DAW APLICACION");
-cuerpo($numero);  //llamo a la vista
-finCuerpo();
-// **********************************************************
 
-//vista
+inicioCuerpo("2DAW APLICACION");
+cuerpo($numero); 
+finCuerpo();
+
+// Vista
+
+// Función para mostrar la cabecera de la página
 function cabecera()
 {
 ?>
 
 <?php
-
-
 }
 
-//vista
 function cuerpo(int $numero)
 {
 ?>
@@ -41,11 +39,11 @@ function cuerpo(int $numero)
 
 <?php
 
-// Generar cadena aleatoria con variable $numero
+// Genero una cadena aleatoria con la longitud que he indicado
 echo generarCadenas($numero);
 
 echo "<br>";
 
-// Generar cadena aleatoria por defecto(10)
+// Genero otra cadena aleatoria utilizando la longitud por defecto, que es 10
 echo generarCadenas();
 }

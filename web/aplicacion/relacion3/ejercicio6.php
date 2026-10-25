@@ -1,30 +1,26 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 include_once("libreria.php");
-//controlador
 
-$usuario = getenv("MYSQL_USER");
+// Controlador
 
-//dibuja la plantilla de la vista
 inicioCabecera("APLICACION PRIMER TRIMESTRE");
 cabecera();
 finCabecera();
-inicioCuerpo("2DAW APLICACION");
-cuerpo();  //llamo a la vista
-finCuerpo();
-// **********************************************************
 
-//vista
+inicioCuerpo("2DAW APLICACION");
+cuerpo(); 
+finCuerpo();
+
+// Vista
+
 function cabecera()
 {
 ?>
 
 <?php
-
-
 }
 
-//vista
 function cuerpo()
 {
 ?>
@@ -39,26 +35,46 @@ function cuerpo()
 
 <?php
 
-    echo llamadaAFuncion(2,2,fn($a,$b)=>$a+$b);
-    echo "<br>";
-    echo llamadaAFuncion(2,2,fn($a,$b)=>$a-$b);
-    echo "<br>";
-    echo llamadaAFuncion(2,2,fn($a,$b)=>$a*$b);
-    echo "<br>";
-    $fn1 = function($a,$b) {
-        return $a+$b;
-    };
-        $fn2 = function($a,$b) {
-        return $a-$b;
-    };
-        $fn3 = function($a,$b) {
-        return $a*$b;
-    };
+// Paso una función flecha que suma los dos números
+echo llamadaAFuncion(2, 2, fn($a, $b) => $a + $b);
 
-    echo llamadaAFuncion(2,2,$fn1);
-    echo "<br>";
-    echo llamadaAFuncion(2,2,$fn2);
-    echo "<br>";
-    echo llamadaAFuncion(2,2,$fn3);
+echo "<br>";
 
+// Paso una función flecha que resta los dos números
+echo llamadaAFuncion(2, 2, fn($a, $b) => $a - $b);
+
+echo "<br>";
+
+// Paso una función flecha que multiplica los dos números
+echo llamadaAFuncion(2, 2, fn($a, $b) => $a * $b);
+
+echo "<br>";
+
+// Creo una función anónima para sumar los dos números
+$fn1 = function($a, $b) {
+    return $a + $b;
+};
+
+// Creo una función anónima para restar los dos números
+$fn2 = function($a, $b) {
+    return $a - $b;
+};
+
+// Creo una función anónima para multiplicar los dos números
+$fn3 = function($a, $b) {
+    return $a * $b;
+};
+
+// Llamo a la función pasando la función de suma como parámetro
+echo llamadaAFuncion(2, 2, $fn1);
+
+echo "<br>";
+
+// Llamo a la función pasando la función de resta como parámetro
+echo llamadaAFuncion(2, 2, $fn2);
+
+echo "<br>";
+
+// Llamo a la función pasando la función de multiplicación como parámetro
+echo llamadaAFuncion(2, 2, $fn3);
 }

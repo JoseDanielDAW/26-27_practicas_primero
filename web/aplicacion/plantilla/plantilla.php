@@ -68,12 +68,16 @@ function inicioCuerpo($cabecera)
             <div id="barraLogin">
             </div>
 
-            <div id="barraMenu">
-                <a href="/index.php">-Inicio</a></li>
-                <a href="./aplicacion/relacion1/index.php">-Relación 1</a>
-                <a href="./aplicacion/relacion2/index.php">-Relación 2</a>
-                <a href="./aplicacion/relacion3/index.php">-Relación 3</a>
-            </div>
+            <nav class="barra-ubicacion">
+                <a href="/index.php">Inicio</a>
+                <span> &gt; </span>
+                <a href="/aplicacion/relacion1/index.php">Relación 1</a>
+                <span> &gt; </span>
+                <a href="/aplicacion/relacion2/index.php">Relación 2</a>
+                <span> &gt; </span>
+                <a href="/aplicacion/relacion3/index.php">Relación 3</a>
+            </nav>
+
 
             <div>
             <?php

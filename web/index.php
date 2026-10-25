@@ -2,7 +2,7 @@
 include_once(dirname(__FILE__) . "/cabecera.php");
 //controlador
 
-$usuario=getenv("MYSQL_USER");
+$usuario = getenv("MYSQL_USER");
 
 //dibuja la plantilla de la vista
 inicioCabecera("APLICACION PRIMER TRIMESTRE");
@@ -14,11 +14,11 @@ finCuerpo();
 // **********************************************************
 
 //vista
-function cabecera() 
+function cabecera()
 {
-    ?>
+?>
 
-    <?php
+<?php
 
 
 }
@@ -28,17 +28,19 @@ function cuerpo()
 {
 ?>
     <nav class="barra-ubicacion">
-    <span>Inicio</span>
+        <span>Inicio</span>
     </nav>
+
     <br><br>
     Relaciones de ejercicios
     <br><br>
+
     <a href="./aplicacion/relacion1/index.php">Acceso a relación 1</a>
-    <br>
-    <br>
+    <br><br>
+
     <a href="./aplicacion/relacion2/index.php">Acceso a relación 2</a>
-    <br>
-    <br>
+    <br><br>
+
     <a href="./aplicacion/relacion3/index.php">Acceso a relación 3</a>
 
 <?php

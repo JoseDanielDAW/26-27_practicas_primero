@@ -1,30 +1,26 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 include_once("libreria.php");
-//controlador
 
-$usuario = getenv("MYSQL_USER");
+// Controlador
 
-//dibuja la plantilla de la vista
 inicioCabecera("APLICACION PRIMER TRIMESTRE");
 cabecera();
 finCabecera();
-inicioCuerpo("2DAW APLICACION");
-cuerpo();  //llamo a la vista
-finCuerpo();
-// **********************************************************
 
-//vista
+inicioCuerpo("2DAW APLICACION");
+cuerpo(); 
+finCuerpo();
+
+// Vista
+
 function cabecera()
 {
 ?>
 
 <?php
-
-
 }
 
-//vista
 function cuerpo()
 {
 ?>
@@ -40,9 +36,14 @@ function cuerpo()
 <?php
 
 echo "<br>";
-$vector=array("uno","grande","caminos","a");
+
+// Creo un array con varias palabras de distinta longitud
+$vector = array("uno", "grande", "caminos", "a");
+
+// Llamo a la función para ordenar las palabras del array
 ordenar($vector);
 
+// Recorro el array y muestro cada palabra en una línea
 foreach ($vector as $i) {
     echo $i . "<br>";
 }

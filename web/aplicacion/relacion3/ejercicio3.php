@@ -1,30 +1,28 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 include_once("libreria.php");
-//controlador
 
-$usuario = getenv("MYSQL_USER");
+// Controlador
 
-//dibuja la plantilla de la vista
+// Dibujo la plantilla de la vista
 inicioCabecera("APLICACION PRIMER TRIMESTRE");
 cabecera();
 finCabecera();
-inicioCuerpo("2DAW APLICACION");
-cuerpo();  //llamo a la vista
-finCuerpo();
-// **********************************************************
 
-//vista
+inicioCuerpo("2DAW APLICACION");
+cuerpo(); 
+finCuerpo();
+
+// Vista
+
+// Función para mostrar la cabecera de la página
 function cabecera()
 {
 ?>
 
 <?php
-
-
 }
 
-//vista
 function cuerpo()
 {
 ?>
@@ -39,9 +37,13 @@ function cuerpo()
 
 <?php
 
-// Llamo a la función directamente en la vista
-echo operaciones(1,1,2,3,4);
+// Llamo a la función operaciones indicando el tipo de operación y los números
+// En la primera llamada utilizo el tipo de operación 1
+echo operaciones(1, 1, 2, 3, 4);
+
 echo "<br>";
-echo operaciones (4,1,2,3,4);
+
+// En la segunda llamada utilizo el tipo de operación 4
+echo operaciones(4, 1, 2, 3, 4);
 
 }

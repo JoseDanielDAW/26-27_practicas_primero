@@ -1,30 +1,26 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 include_once("libreria.php");
-//controlador
 
-$usuario = getenv("MYSQL_USER");
+// Controlador
 
-//dibuja la plantilla de la vista
 inicioCabecera("APLICACION PRIMER TRIMESTRE");
 cabecera();
 finCabecera();
-inicioCuerpo("2DAW APLICACION");
-cuerpo();  //llamo a la vista
-finCuerpo();
-// **********************************************************
 
-//vista
+inicioCuerpo("2DAW APLICACION");
+cuerpo(); // Llamo a la vista
+finCuerpo();
+
+// Vista
+
 function cabecera()
 {
 ?>
 
 <?php
-
-
 }
 
-//vista
 function cuerpo()
 {
 ?>
@@ -40,11 +36,22 @@ function cuerpo()
 <?php
 
 echo "<br>";
-echo suma(4,3);
+
+// Muestro el resultado de sumar dos números
+echo suma(4, 3);
+
 echo "<br>";
-echo resta(5,4);
+
+// Muestro el resultado de restar dos números
+echo resta(5, 4);
+
 echo "<br>";
-echo multiplicacion(5,5);
+
+// Muestro el resultado de multiplicar dos números
+echo multiplicacion(5, 5);
+
 echo "<br>";
-echo hacerOperacion("suma",5,5);
+
+// Llamo a hacerOperacion indicando que quiero realizar una suma
+echo hacerOperacion("suma", 5, 5);
 }

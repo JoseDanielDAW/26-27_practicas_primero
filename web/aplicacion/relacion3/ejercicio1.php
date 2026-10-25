@@ -1,35 +1,36 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 include_once("libreria.php");
-//controlador
 
-// Variables
+// Controlador
+
+// Creo un array vacío y una variable para guardar el número de llamadas
 $vector = array();
 $numero = 0;
+
+// Llamo a la función para añadir elementos al array
 cuentaVeces($vector, "1osición", 7, $numero);
 cuentaVeces($vector, "otra", 2, $numero);
 
-//dibuja la plantilla de la vista
 inicioCabecera("APLICACION PRIMER TRIMESTRE");
 cabecera();
 finCabecera();
-inicioCuerpo("2DAW APLICACION");
-cuerpo($vector,$numero);  //llamo a la vista
-finCuerpo();
-// **********************************************************
 
-//vista
+inicioCuerpo("2DAW APLICACION");
+cuerpo($vector, $numero); // Llamo a la vista y le paso los datos
+finCuerpo();
+
+// Vista
+
 function cabecera()
 {
 ?>
 
 <?php
-
-
 }
 
-//vista
-function cuerpo(array $vector,int $numero)
+// Función que muestra el contenido de la página
+function cuerpo(array $vector, int $numero)
 {
 ?>
 
@@ -43,13 +44,14 @@ function cuerpo(array $vector,int $numero)
 
 <?php
 
+// Dejo un salto de línea para separar el contenido
 echo "<br>";
 
-// Recorrer el array y mostrar datos
-    foreach ($vector as $i => $elem) {
-        echo  "Índice: ". $i . " Elemento: ". $elem . "<br>";
-    }
+// Recorro el array para mostrar el índice y el elemento que contiene
+foreach ($vector as $i => $elem) {
+    echo "Índice: " . $i . " Elemento: " . $elem . "<br>";
+}
 
-// Mostrar el número de veces que se llama a la función
-    echo "Número de veces que se llama a la función: ".$numero;
+// Muestro cuántas veces se ha llamado correctamente a la función
+echo "Número de veces que se llama a la función: " . $numero;
 }
