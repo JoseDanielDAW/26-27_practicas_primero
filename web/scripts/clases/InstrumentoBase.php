@@ -47,11 +47,8 @@ abstract class InstrumentoBase {
     // Metodo magico __toString
     public function __toString(): string {
 
-        return "instrumento con descripción " . $this->_descripcion .
-        ", instancia " . $this->_instancia .
-        " de un total de " . self::$_totalInstrumentos .
-        ". Tiene " . $this->_edad .
-        " años. La clase es " . get_class($this);
+        return "instrumento con descripción " . $this->_descripcion . ", instancia " . $this->_instancia .
+        " de un total de " . self::$_totalInstrumentos .". Tiene " . $this->_edad . " años. La clase es " . get_class($this);
 
     }
 
@@ -70,6 +67,14 @@ abstract class InstrumentoBase {
 
     public function __unset(string $nombre) {
         throw new LogicException("Acceso no permitido");
+    }
+
+    // Registrar una nueva instancia al clonar
+    protected function registrarClon(): void {
+
+        $this->_edad = 0;
+        $this->_instancia = ++self::$_totalInstrumentos;
+
     }
 
 }
