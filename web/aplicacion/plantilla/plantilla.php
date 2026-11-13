@@ -2,92 +2,110 @@
 
 function paginaError($mensaje)
 {
-  header("HTTP/1.0 404 $mensaje");
-  inicioCabecera("PRACTICA");
-  finCabecera();
-  inicioCuerpo("ERROR");
-  echo "<br />\n";
-  echo $mensaje;
-  echo "<br />\n";
-  echo "<br />\n";  echo "<br />\n";
-  echo "<a href='/index.php'>Ir a la pagina principal</a>\n";
-  
-  finCuerpo();  
+    header("HTTP/1.0 404 $mensaje");
+    inicioCabecera("PRACTICA");
+    finCabecera();
+    inicioCuerpo("ERROR");
+
+    echo "<br />\n";
+    echo $mensaje;
+    echo "<br />\n";
+    echo "<br />\n";
+    echo "<br />\n";
+    echo "<a href='/index.php'>Ir a la pagina principal</a>\n";
+
+    finCuerpo();
 }
 
 function inicioCabecera($titulo)
 {
 ?>
-<!DOCTYPE html>
-<html lang="es">
+    <!DOCTYPE html>
+    <html lang="es">
+
     <head>
         <meta charset="utf-8">
 
-        <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
-        Remove this if you use the .htaccess -->
-            <meta http-equiv="X-UA-Compatible"  content="IE=edge,chrome=1">
+        <!-- Always force latest IE rendering engine -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
         <title><?php echo $titulo ?></title>
         <meta name="description" content="">
         <meta name="author" content="Administrador">
 
-        <meta name="viewport" content="width=device-width; initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
         <link rel="shortcut icon" href="/favicon.ico">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        
+
         <link rel="stylesheet" type="text/css" href="/estilos/base.css">
-<?php
+    <?php
 }
 
 function finCabecera()
 {
-?>
+    ?>
     </head>
-<?php   
+<?php
 }
 
 function inicioCuerpo($cabecera)
 {
     global $acceso;
-
 ?>
+
     <body>
         <div id="documento">
-        
-            <header>
-                <h1 id="titulo"><?php echo $cabecera;?></h1>
-            </header>
-            
-            <div id="barraLogin">
-                
-            </div>
-            <div id="barraMenu">
-                <ul>
-                    <li><a href="/index.php">Inicio</a></li>
-                 </ul> 
-                
-            </div>
-            
-            <div>
-<?php   
-}
 
-function finCuerpo()
-{
-?>
-                <br />
-                <br />
+            <header id="cabeceraPrincipal">
+                <a href="/index.php" id="puntoSeguro">
+                    <img src="/imagenes/logo.png" alt="Punto seguro">
+                </a>
+
+                <h1 id="titulo"><?php echo $cabecera; ?></h1>
+            </header>
+
+            <div id="barraLogin">
             </div>
+
+            <nav class="barra-ubicacion">
+                <a href="/index.php">Inicio</a>
+                <span> &gt; </span>
+                <a href="/aplicacion/relacion1/index.php">Relación 1</a>
+                <span> &gt; </span>
+                <a href="/aplicacion/relacion2/index.php">Relación 2</a>
+                <span> &gt; </span>
+                <a href="/aplicacion/relacion3/index.php">Relación 3</a>
+                <span> &gt; </span>
+                <a href="/aplicacion/relacion4/index.php">Relación 4</a>
+                <span> &gt; </span>
+                <a href="/aplicacion/relacion5/index.php">Relación 5</a>
+            </nav>
+
+
+            <div>
+            <?php
+        }
+
+        function finCuerpo()
+        {
+            ?>
+                <br />
+                <br />
+
+            </div>
+
             <footer>
-                <hr width="90%"  />  
+                <hr width="90%" />
                 <div>
-                    &copy; Copyright  by Profesor
+                    &copy; Copyright by Jose Daniel
                 </div>
             </footer>
+
         </div>
     </body>
-</html>
+
+    </html>
 <?php
-}
+        }
+?>
