@@ -1,12 +1,17 @@
 <?php
 
 include_once(dirname(__FILE__) . "/../../cabecera.php");
+
 require_once(dirname(__FILE__) . "/../../scripts/clases/Punto.php");
+
 
 // CONTROLADOR
 
+
 inicioCabecera("APLICACION PRIMER TRIMESTRE");
+
 cabecera();
+
 finCabecera();
 
 
@@ -33,15 +38,19 @@ $navegador = "otro";
 if (strpos($agente, "edg") !== false) {
 
     $navegador = "edge";
+
 } elseif (strpos($agente, "firefox") !== false) {
 
     $navegador = "firefox";
+
 } elseif (strpos($agente, "chrome") !== false) {
 
     $navegador = "chrome";
+
 } elseif (strpos($agente, "safari") !== false) {
 
     $navegador = "safari";
+
 }
 
 
@@ -115,6 +124,7 @@ function cargarPuntos($rutaFichero)
 
                         $punto = new Punto($x, $y, $color, $grosor);
                         $puntos[] = $punto;
+
                     } catch (Exception $e) {
 
                         // No añado los puntos incorrectos
@@ -184,9 +194,11 @@ if (!file_exists($rutaFichero)) {
     guardarPuntos($puntos, $rutaFichero);
 
     crearImagen($puntos, $rutaImagen);
+
 } else {
 
     $puntos = cargarPuntos($rutaFichero);
+
 }
 
 
@@ -265,9 +277,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 header("Location: index.php");
                 exit();
+
             } catch (Exception $e) {
 
                 $mensaje = $e->getMessage();
+
             }
         }
     }
@@ -294,6 +308,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             header("Location: index.php");
             exit();
+
         }
     }
 
@@ -335,6 +350,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $punto = new Punto($x, $y, $color, $grosor);
 
                                 $puntos[] = $punto;
+
                             } catch (Exception $e) {
 
                                 // No añado los puntos incorrectos
@@ -351,9 +367,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             header("Location: index.php");
             exit();
+
         } else {
 
             $mensaje = "No se ha podido subir el fichero";
+
         }
     }
 }
@@ -364,6 +382,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (!file_exists($rutaImagen)) {
 
     crearImagen($puntos, $rutaImagen);
+
 }
 
 
@@ -381,7 +400,9 @@ $datos = [
 
 
 inicioCuerpo("2DAW APLICACION");
+
 cuerpo($datos);
+
 finCuerpo();
 
 
@@ -391,7 +412,6 @@ function cabecera()
 {
 
 ?>
-
 
 <?php
 
@@ -436,7 +456,11 @@ function cuerpo(array $datos)
     echo "<input type='number' name='x' min='0' max='500' value='" .
         htmlspecialchars($valores["x"] ?? "") . "'>";
 
-    echo "<span class='error'>" . htmlspecialchars($errores["x"]) . "</span>";
+    if ($errores["x"] != "") {
+
+        echo "<span class='error'>" . htmlspecialchars($errores["x"]) . "</span>";
+
+    }
 
 
     // COORDENADA Y
@@ -446,7 +470,11 @@ function cuerpo(array $datos)
     echo "<input type='number' name='y' min='0' max='500' value='" .
         htmlspecialchars($valores["y"] ?? "") . "'>";
 
-    echo "<span class='error'>" . htmlspecialchars($errores["y"]) . "</span>";
+    if ($errores["y"] != "") {
+
+        echo "<span class='error'>" . htmlspecialchars($errores["y"]) . "</span>";
+
+    }
 
 
     // COLOR
@@ -470,7 +498,11 @@ function cuerpo(array $datos)
 
     echo "</select>";
 
-    echo "<span class='error'>" . htmlspecialchars($errores["color"]) . "</span>";
+    if ($errores["color"] != "") {
+
+        echo "<span class='error'>" . htmlspecialchars($errores["color"]) . "</span>";
+
+    }
 
 
     // GROSOR
@@ -487,7 +519,11 @@ function cuerpo(array $datos)
         echo $grosor . "<br>";
     }
 
-    echo "<span class='error'>" . htmlspecialchars($errores["grosor"]) . "</span>";
+    if ($errores["grosor"] != "") {
+
+        echo "<span class='error'>" . htmlspecialchars($errores["grosor"]) . "</span>";
+
+    }
 
 
     echo "<br><br>";
@@ -504,6 +540,7 @@ function cuerpo(array $datos)
     if ($datos["mensaje"] != "") {
 
         echo "<p class='error'>" . htmlspecialchars($datos["mensaje"]) . "</p>";
+
     }
 
 
@@ -598,6 +635,7 @@ function cuerpo(array $datos)
     echo "<input type='submit' value='Subir fichero'>";
 
     echo "</form>";
+
 }
 
 ?>
