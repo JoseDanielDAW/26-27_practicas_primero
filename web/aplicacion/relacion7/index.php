@@ -3,67 +3,153 @@
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 require_once(dirname(__FILE__) . "/../../scripts/clases/Punto.php");
 
-//controlador
+// CONTROLADOR
 
-//identifico al cliente
-$ip = str_replace(".", "_", $_SERVER['REMOTE_ADDR']);
+inicioCabecera("APLICACION PRIMER TRIMESTRE");
+cabecera();
+finCabecera();
+
+
+// VARIABLES
+
+$errores = [
+    "x" => "",
+    "y" => "",
+    "color" => "",
+    "grosor" => ""
+];
+
+$mensaje = "";
+
+
+// IDENTIFICAR CLIENTE
+
+$ip = str_replace(".", "_", $_SERVER["REMOTE_ADDR"]);
+
+$agente = strtolower($_SERVER["HTTP_USER_AGENT"]);
 
 $navegador = "otro";
-$agente = strtolower($_SERVER['HTTP_USER_AGENT']);
 
-if (strpos($agente, "chrome") !== false)
-{
-    $navegador = "chrome";
-}
-else if (strpos($agente, "firefox") !== false)
-{
-    $navegador = "firefox";
-}
-else if (strpos($agente, "edg") !== false)
-{
+if (strpos($agente, "edg") !== false) {
+
     $navegador = "edge";
-}
-else if (strpos($agente, "safari") !== false)
-{
+} elseif (strpos($agente, "firefox") !== false) {
+
+    $navegador = "firefox";
+} elseif (strpos($agente, "chrome") !== false) {
+
+    $navegador = "chrome";
+} elseif (strpos($agente, "safari") !== false) {
+
     $navegador = "safari";
 }
 
-//rutas de los ficheros
+
+// RUTAS DE LOS FICHEROS
+
+$carpeta = dirname(__FILE__) . "/../../imagenes/puntos/";
+
+if (!is_dir($carpeta)) {
+
+    mkdir($carpeta, 0777, true);
+}
+
 $nombreFichero = "puntos_" . $ip . "_" . $navegador . ".dat";
-$rutaFichero = dirname(__FILE__) . "/../../imagenes/puntos/" . $nombreFichero;
+$rutaFichero = $carpeta . $nombreFichero;
 
 $nombreImagen = "imagen_" . $ip . "_" . $navegador . ".jpg";
-$rutaImagen = dirname(__FILE__) . "/../../imagenes/puntos/" . $nombreImagen;
+$rutaImagen = $carpeta . $nombreImagen;
 
 $rutaImagenWeb = "../../imagenes/puntos/" . $nombreImagen;
 
-//array de puntos
+
+// ARRAY DE PUNTOS
+
 $puntos = [];
 
-//mensajes y errores
-$errorX = "";
-$errorY = "";
-$errorColor = "";
-$errorGrosor = "";
-$mensaje = "";
 
-//funcion para crear la imagen
+// FUNCIONES PARA TRABAJAR CON LOS FICHEROS
+
+function guardarPuntos($puntos, $rutaFichero)
+{
+
+    $fichero = fopen($rutaFichero, "w");
+
+    foreach ($puntos as $punto) {
+
+        $linea = $punto->getX() . " ; ";
+        $linea .= $punto->getY() . " ; ";
+        $linea .= $punto->getColor() . " ; ";
+        $linea .= $punto->getGrosor() . PHP_EOL;
+
+        fwrite($fichero, $linea);
+    }
+
+    fclose($fichero);
+}
+
+
+function cargarPuntos($rutaFichero)
+{
+
+    $puntos = [];
+
+    if (file_exists($rutaFichero)) {
+
+        $lineas = file($rutaFichero, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+        foreach ($lineas as $linea) {
+
+            $datos = explode(";", $linea);
+
+            if (count($datos) == 4) {
+
+                $x = filter_var(trim($datos[0]), FILTER_VALIDATE_INT);
+                $y = filter_var(trim($datos[1]), FILTER_VALIDATE_INT);
+                $color = trim($datos[2]);
+                $grosor = filter_var(trim($datos[3]), FILTER_VALIDATE_INT);
+
+                if ($x !== false && $y !== false && $grosor !== false) {
+
+                    try {
+
+                        $punto = new Punto($x, $y, $color, $grosor);
+                        $puntos[] = $punto;
+                    } catch (Exception $e) {
+
+                        // No añado los puntos incorrectos
+
+                    }
+                }
+            }
+        }
+    }
+
+    return $puntos;
+}
+
+
+// FUNCION PARA CREAR LA IMAGEN
+
 function crearImagen($puntos, $rutaImagen)
 {
-    $imagen = imagecreatetruecolor(500, 500);
+
+    $imagen = imagecreatetruecolor(501, 501);
 
     $blanco = imagecolorallocate($imagen, 255, 255, 255);
     $negro = imagecolorallocate($imagen, 0, 0, 0);
 
-    //fondo blanco y marco
     imagefill($imagen, 0, 0, $blanco);
-    imagerectangle($imagen, 0, 0, 499, 499, $negro);
 
-    //dibujo los puntos
-    foreach ($puntos as $punto)
-    {
-        $datosColor = Punto::COLORES[$punto->getColor()];
-        $rgb = $datosColor["rgb"];
+    // MARCO
+
+    imagerectangle($imagen, 0, 0, 500, 500, $negro);
+
+    // DIBUJAR PUNTOS
+
+    foreach ($puntos as $punto) {
+
+        $rgb = Punto::COLORES[$punto->getColor()]["rgb"];
 
         $color = imagecolorallocate($imagen, $rgb[0], $rgb[1], $rgb[2]);
 
@@ -80,145 +166,130 @@ function crearImagen($puntos, $rutaImagen)
     }
 
     imagejpeg($imagen, $rutaImagen, 90);
+
     imagedestroy($imagen);
 }
 
-//funcion para guardar los puntos en el fichero
-function guardarPuntos($puntos, $rutaFichero)
-{
-    $fichero = fopen($rutaFichero, "w");
 
-    foreach ($puntos as $punto)
-    {
-        $linea = $punto->getX() . " ; ";
-        $linea .= $punto->getY() . " ; ";
-        $linea .= $punto->getColor() . " ; ";
-        $linea .= $punto->getGrosor() . PHP_EOL;
+// CARGAR PUNTOS DEL FICHERO
 
-        fwrite($fichero, $linea);
-    }
+if (!file_exists($rutaFichero)) {
 
-    fclose($fichero);
-}
+    // TRES PUNTOS INICIALES
 
-//funcion para cargar los puntos
-function cargarPuntos($rutaFichero)
-{
-    $puntos = [];
-
-    if (file_exists($rutaFichero))
-    {
-        $lineas = file($rutaFichero, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-        foreach ($lineas as $linea)
-        {
-            $datos = explode(";", $linea);
-
-            if (count($datos) == 4)
-            {
-                $x = filter_var(trim($datos[0]), FILTER_VALIDATE_INT);
-                $y = filter_var(trim($datos[1]), FILTER_VALIDATE_INT);
-                $color = trim($datos[2]);
-                $grosor = filter_var(trim($datos[3]), FILTER_VALIDATE_INT);
-
-                try
-                {
-                    $punto = new Punto($x, $y, $color, $grosor);
-                    $puntos[] = $punto;
-                }
-                catch (Exception $e)
-                {
-                    //ignoro las lineas incorrectas
-                }
-            }
-        }
-    }
-
-    return $puntos;
-}
-
-//creo los tres puntos iniciales si no existe el fichero
-if (!file_exists($rutaFichero))
-{
     $puntos[] = new Punto(100, 100, "red", 1);
     $puntos[] = new Punto(250, 250, "blue", 2);
     $puntos[] = new Punto(400, 400, "green", 3);
 
     guardarPuntos($puntos, $rutaFichero);
+
     crearImagen($puntos, $rutaImagen);
-}
-else
-{
+} else {
+
     $puntos = cargarPuntos($rutaFichero);
 }
 
-//procesamiento de formularios
-if ($_SERVER['REQUEST_METHOD'] == "POST")
-{
-    $accion = $_POST['accion'] ?? "";
 
-    //añadir un punto
-    if ($accion == "guardar")
-    {
-        $x = filter_var($_POST['x'] ?? "", FILTER_VALIDATE_INT);
-        $y = filter_var($_POST['y'] ?? "", FILTER_VALIDATE_INT);
+// COMPROBAR SI SE HA ENVIADO EL FORMULARIO
 
-        $color = $_POST['color'] ?? "";
-        $grosor = filter_var($_POST['grosor'] ?? "", FILTER_VALIDATE_INT);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-        if ($x === false || $x === null || $x < 0 || $x > 500)
-        {
-            $errorX = "Introduce un número entre 0 y 500";
+    $accion = $_POST["accion"] ?? "";
+
+
+    // GUARDAR PUNTO
+
+    if ($accion == "guardar") {
+
+        // COORDENADA X
+
+        $x = filter_var($_POST["x"] ?? "", FILTER_VALIDATE_INT);
+
+        if ($x === false || $x === null || $x < 0 || $x > 500) {
+
+            $errores["x"] = "La coordenada X debe estar entre 0 y 500";
         }
 
-        if ($y === false || $y === null || $y < 0 || $y > 500)
-        {
-            $errorY = "Introduce un número entre 0 y 500";
+
+        // COORDENADA Y
+
+        $y = filter_var($_POST["y"] ?? "", FILTER_VALIDATE_INT);
+
+        if ($y === false || $y === null || $y < 0 || $y > 500) {
+
+            $errores["y"] = "La coordenada Y debe estar entre 0 y 500";
         }
 
-        if (!array_key_exists($color, Punto::COLORES))
-        {
-            $errorColor = "Selecciona un color";
+
+        // COLOR
+
+        $color = $_POST["color"] ?? "";
+
+        if (!is_string($color) || !array_key_exists($color, Punto::COLORES)) {
+
+            $errores["color"] = "Debes seleccionar un color valido";
         }
 
-        if ($grosor === false || $grosor === null || !array_key_exists($grosor, Punto::GROSORES))
-        {
-            $errorGrosor = "Selecciona un grosor";
+
+        // GROSOR
+
+        $grosor = filter_var($_POST["grosor"] ?? "", FILTER_VALIDATE_INT);
+
+        if (
+            $grosor === false || $grosor === null ||
+            !array_key_exists($grosor, Punto::GROSORES)
+        ) {
+
+            $errores["grosor"] = "Debes seleccionar un grosor valido";
         }
 
-        //si no hay errores añado el punto
-        if ($errorX == "" && $errorY == "" && $errorColor == "" && $errorGrosor == "")
-        {
-            try
-            {
+
+        // SI NO HAY ERRORES AÑADO EL PUNTO
+
+        if (
+            $errores["x"] == "" &&
+            $errores["y"] == "" &&
+            $errores["color"] == "" &&
+            $errores["grosor"] == ""
+        ) {
+
+            try {
+
                 $punto = new Punto($x, $y, $color, $grosor);
+
                 $puntos[] = $punto;
 
                 guardarPuntos($puntos, $rutaFichero);
+
                 crearImagen($puntos, $rutaImagen);
 
                 header("Location: index.php");
                 exit();
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
+
                 $mensaje = $e->getMessage();
             }
         }
     }
 
-    //borrar un punto
-    else if ($accion == "borrar")
-    {
-        $indice = filter_var($_POST['indice'] ?? "", FILTER_VALIDATE_INT);
 
-        if ($indice !== false && $indice !== null && isset($puntos[$indice]))
-        {
+    // BORRAR PUNTO
+
+    elseif ($accion == "borrar") {
+
+        $indice = filter_var($_POST["indice"] ?? "", FILTER_VALIDATE_INT);
+
+        if (
+            $indice !== false && $indice !== null &&
+            isset($puntos[$indice])
+        ) {
+
             unset($puntos[$indice]);
 
             $puntos = array_values($puntos);
 
             guardarPuntos($puntos, $rutaFichero);
+
             crearImagen($puntos, $rutaImagen);
 
             header("Location: index.php");
@@ -226,37 +297,48 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
     }
 
-    //subir un fichero txt
-    else if ($accion == "subir")
-    {
-        if (isset($_FILES['fichero']) && $_FILES['fichero']['error'] == UPLOAD_ERR_OK)
-        {
-            $lineas = file($_FILES['fichero']['tmp_name'], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-            foreach ($lineas as $linea)
-            {
-                $datos = explode(";", $linea);
+    // SUBIR FICHERO TXT
 
-                if (count($datos) == 4)
-                {
-                    $x = filter_var(trim($datos[0]), FILTER_VALIDATE_INT);
-                    $y = filter_var(trim($datos[1]), FILTER_VALIDATE_INT);
-                    $color = trim($datos[2]);
-                    $grosor = filter_var(trim($datos[3]), FILTER_VALIDATE_INT);
+    elseif ($accion == "subir") {
 
-                    //compruebo que los datos sean correctos
-                    if ($x !== false && $y !== false && $grosor !== false)
-                    {
-                        if ($x >= 0 && $x <= 500 && $y >= 0 && $y <= 500)
-                        {
-                            try
-                            {
+        if (
+            isset($_FILES["fichero"]) &&
+            $_FILES["fichero"]["error"] == UPLOAD_ERR_OK
+        ) {
+
+            $lineas = file(
+                $_FILES["fichero"]["tmp_name"],
+                FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
+            );
+
+            foreach ($lineas as $linea) {
+
+                $datosLinea = explode(";", $linea);
+
+                if (count($datosLinea) == 4) {
+
+                    $x = filter_var(trim($datosLinea[0]), FILTER_VALIDATE_INT);
+                    $y = filter_var(trim($datosLinea[1]), FILTER_VALIDATE_INT);
+                    $color = trim($datosLinea[2]);
+                    $grosor = filter_var(trim($datosLinea[3]), FILTER_VALIDATE_INT);
+
+                    if ($x !== false && $y !== false && $grosor !== false) {
+
+                        if (
+                            $x >= 0 && $x <= 500 &&
+                            $y >= 0 && $y <= 500
+                        ) {
+
+                            try {
+
                                 $punto = new Punto($x, $y, $color, $grosor);
+
                                 $puntos[] = $punto;
-                            }
-                            catch (Exception $e)
-                            {
-                                //no añado el punto incorrecto
+                            } catch (Exception $e) {
+
+                                // No añado los puntos incorrectos
+
                             }
                         }
                     }
@@ -264,150 +346,258 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             }
 
             guardarPuntos($puntos, $rutaFichero);
+
             crearImagen($puntos, $rutaImagen);
 
             header("Location: index.php");
             exit();
-        }
-        else
-        {
+        } else {
+
             $mensaje = "No se ha podido subir el fichero";
         }
     }
 }
 
-//si no existe la imagen la creo
-if (!file_exists($rutaImagen))
-{
+
+// COMPROBAR SI EXISTE LA IMAGEN
+
+if (!file_exists($rutaImagen)) {
+
     crearImagen($puntos, $rutaImagen);
 }
 
-//llamo a la vista
-inicioCabecera();
-cabecera();
-finCabecera();
 
-inicioCuerpo();
-cuerpo();
+// DATOS PARA LA VISTA
+
+$datos = [
+
+    "puntos" => $puntos,
+    "errores" => $errores,
+    "mensaje" => $mensaje,
+    "rutaImagen" => $rutaImagenWeb,
+    "valores" => $_POST
+
+];
+
+
+inicioCuerpo("2DAW APLICACION");
+cuerpo($datos);
 finCuerpo();
 
-//funciones de la vista
+
+// VISTA
 
 function cabecera()
 {
-    echo "<h1>Relación 7: Ficheros</h1>";
+
+?>
+
+
+<?php
+
 }
 
-function cuerpo()
+
+function cuerpo(array $datos)
 {
-    global $puntos, $errorX, $errorY, $errorColor, $errorGrosor;
-    global $mensaje, $rutaImagenWeb;
 
-    //formulario para añadir puntos
-    echo "<h2>Añadir punto</h2>";
+    echo "<nav class='barra-ubicacion'>";
 
-    echo "<form action='index.php' method='POST'>";
+    echo "<a href='../../index.php'>Inicio</a>";
+    echo "<span>&gt;</span>";
+    echo "<a href='index.php'>Relación 7</a>";
+    echo "<span>&gt;</span>";
+    echo "<span>Ficheros</span>";
 
-    echo "<label>Coordenada X:</label>";
-    echo "<input type='number' name='x' min='0' max='500' value='" . htmlspecialchars($_POST['x'] ?? "") . "'>";
-    echo "<span class='error'>" . $errorX . "</span><br>";
+    echo "</nav>";
 
-    echo "<label>Coordenada Y:</label>";
-    echo "<input type='number' name='y' min='0' max='500' value='" . htmlspecialchars($_POST['y'] ?? "") . "'>";
-    echo "<span class='error'>" . $errorY . "</span><br>";
 
-    echo "<label>Color:</label>";
+    echo "<h2>Relación 7 - Ficheros</h2>";
+
+
+    // VARIABLES
+
+    $puntos = $datos["puntos"];
+    $errores = $datos["errores"];
+    $valores = $datos["valores"];
+
+
+    // FORMULARIO PARA AÑADIR PUNTOS
+
+    echo "<h3>Añadir punto</h3>";
+
+    echo "<form method='POST' action='index.php'>";
+
+
+    // COORDENADA X
+
+    echo "<p>Coordenada X:</p>";
+
+    echo "<input type='number' name='x' min='0' max='500' value='" .
+        htmlspecialchars($valores["x"] ?? "") . "'>";
+
+    echo "<span class='error'>" . htmlspecialchars($errores["x"]) . "</span>";
+
+
+    // COORDENADA Y
+
+    echo "<p>Coordenada Y:</p>";
+
+    echo "<input type='number' name='y' min='0' max='500' value='" .
+        htmlspecialchars($valores["y"] ?? "") . "'>";
+
+    echo "<span class='error'>" . htmlspecialchars($errores["y"]) . "</span>";
+
+
+    // COLOR
+
+    echo "<p>Color:</p>";
+
     echo "<select name='color'>";
 
     echo "<option value=''>Selecciona un color</option>";
 
-    foreach (Punto::COLORES as $clave => $color)
-    {
-        $seleccionado = (($_POST['color'] ?? "") == $clave) ? "selected" : "";
+    foreach (Punto::COLORES as $clave => $color) {
+
+        $seleccionado = (($valores["color"] ?? "") == $clave) ? "selected" : "";
 
         echo "<option value='" . $clave . "' " . $seleccionado . ">";
-        echo $color['nombre'];
+
+        echo $color["nombre"];
+
         echo "</option>";
     }
 
     echo "</select>";
-    echo "<span class='error'>" . $errorColor . "</span><br>";
 
-    echo "<label>Grosor:</label>";
+    echo "<span class='error'>" . htmlspecialchars($errores["color"]) . "</span>";
 
-    foreach (Punto::GROSORES as $clave => $grosor)
-    {
-        $seleccionado = (($_POST['grosor'] ?? "") == $clave) ? "checked" : "";
 
-        echo "<input type='radio' name='grosor' value='" . $clave . "' " . $seleccionado . ">";
-        echo $grosor;
+    // GROSOR
+
+    echo "<p>Grosor:</p>";
+
+    foreach (Punto::GROSORES as $clave => $grosor) {
+
+        $seleccionado = (($valores["grosor"] ?? "") == $clave) ? "checked" : "";
+
+        echo "<input type='radio' name='grosor' value='" . $clave . "' " .
+            $seleccionado . ">";
+
+        echo $grosor . "<br>";
     }
 
-    echo "<span class='error'>" . $errorGrosor . "</span><br>";
+    echo "<span class='error'>" . htmlspecialchars($errores["grosor"]) . "</span>";
+
+
+    echo "<br><br>";
 
     echo "<input type='hidden' name='accion' value='guardar'>";
+
     echo "<input type='submit' value='Guardar'>";
 
     echo "</form>";
 
-    echo "<p>" . htmlspecialchars($mensaje) . "</p>";
 
-    //mostrar todos los puntos
-    echo "<h2>Puntos guardados</h2>";
+    // MENSAJE
+
+    if ($datos["mensaje"] != "") {
+
+        echo "<p class='error'>" . htmlspecialchars($datos["mensaje"]) . "</p>";
+    }
+
+
+    // MOSTRAR TODOS LOS PUNTOS
+
+    echo "<h3>Puntos guardados</h3>";
 
     $texto = "";
 
-    foreach ($puntos as $punto)
-    {
+    foreach ($puntos as $punto) {
+
         $texto .= "X: " . $punto->getX();
+
         $texto .= " - Y: " . $punto->getY();
-        $texto .= " - Color: " . Punto::COLORES[$punto->getColor()]['nombre'];
-        $texto .= " - Grosor: " . Punto::GROSORES[$punto->getGrosor()];
+
+        $texto .= " - Color: " .
+            Punto::COLORES[$punto->getColor()]["nombre"];
+
+        $texto .= " - Grosor: " .
+            Punto::GROSORES[$punto->getGrosor()];
+
         $texto .= "\n";
     }
 
     echo "<textarea rows='10' cols='60' readonly>";
+
     echo htmlspecialchars($texto);
+
     echo "</textarea>";
 
-    //mostrar imagen
-    echo "<h2>Imagen de los puntos</h2>";
-    echo "<img src='" . $rutaImagenWeb . "?v=" . filemtime(dirname(__FILE__) . "/../../imagenes/puntos/" . basename($rutaImagenWeb)) . "' alt='Imagen de los puntos'>";
 
-    //formulario para borrar puntos
-    echo "<h2>Borrar punto</h2>";
+    // MOSTRAR IMAGEN
 
-    echo "<form action='index.php' method='POST'>";
+    echo "<h3>Imagen de los puntos</h3>";
+
+    echo "<img src='" . htmlspecialchars($datos["rutaImagen"]) .
+        "?v=" . (file_exists(dirname(__FILE__) . "/../../imagenes/puntos/" .
+            basename($datos["rutaImagen"])) ?
+            filemtime(dirname(__FILE__) . "/../../imagenes/puntos/" .
+                basename($datos["rutaImagen"])) : time()) .
+        "' alt='Imagen de los puntos'>";
+
+
+    // FORMULARIO PARA BORRAR PUNTOS
+
+    echo "<h3>Borrar punto</h3>";
+
+    echo "<form method='POST' action='index.php'>";
 
     echo "<select name='indice'>";
 
-    foreach ($puntos as $indice => $punto)
-    {
+    foreach ($puntos as $indice => $punto) {
+
         echo "<option value='" . $indice . "'>";
-        echo "Punto " . ($indice + 1) . " - X: " . $punto->getX() . " Y: " . $punto->getY();
+
+        echo "Punto " . ($indice + 1);
+
+        echo " - X: " . $punto->getX();
+
+        echo " - Y: " . $punto->getY();
+
         echo "</option>";
     }
 
     echo "</select>";
 
     echo "<input type='hidden' name='accion' value='borrar'>";
-    echo "<input type='submit' value='Borrar' " . (count($puntos) == 0 ? "disabled" : "") . ">";
+
+    echo "<input type='submit' value='Borrar' " .
+        (count($puntos) == 0 ? "disabled" : "") . ">";
 
     echo "</form>";
 
-    //descargar imagen
-    echo "<h2>Descargar imagen</h2>";
+
+    // DESCARGAR IMAGEN
+
+    echo "<h3>Descargar imagen</h3>";
+
     echo "<a href='imagen.php'>Descargar imagen JPG</a>";
 
-    //formulario para subir puntos
-    echo "<h2>Importar puntos desde TXT</h2>";
 
-    echo "<form action='index.php' method='POST' enctype='multipart/form-data'>";
+    // SUBIR FICHERO TXT
+
+    echo "<h3>Importar puntos desde TXT</h3>";
+
+    echo "<form method='POST' action='index.php' enctype='multipart/form-data'>";
 
     echo "<input type='file' name='fichero' accept='.txt' required>";
+
     echo "<input type='hidden' name='accion' value='subir'>";
+
     echo "<input type='submit' value='Subir fichero'>";
 
     echo "</form>";
 }
+
 ?>

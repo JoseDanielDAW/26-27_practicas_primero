@@ -26,23 +26,19 @@ class Punto
     //constructor
     public function __construct($x, $y, $color, $grosor)
     {
-        if (!$this->setX($x))
-        {
+        if (!$this->setX($x)) {
             throw new Exception("Coordenada X incorrecta");
         }
 
-        if (!$this->setY($y))
-        {
+        if (!$this->setY($y)) {
             throw new Exception("Coordenada Y incorrecta");
         }
 
-        if (!$this->setColor($color))
-        {
+        if (!$this->setColor($color)) {
             throw new Exception("Color incorrecto");
         }
 
-        if (!$this->setGrosor($grosor))
-        {
+        if (!$this->setGrosor($grosor)) {
             throw new Exception("Grosor incorrecto");
         }
     }
@@ -50,8 +46,7 @@ class Punto
     //setters
     public function setX($x): bool
     {
-        if (is_int($x) && $x >= 0 && $x <= 20000)
-        {
+        if (is_int($x) && $x >= 0 && $x <= 20000) {
             $this->x = $x;
             return true;
         }
@@ -61,8 +56,7 @@ class Punto
 
     public function setY($y): bool
     {
-        if (is_int($y) && $y >= 0 && $y <= 20000)
-        {
+        if (is_int($y) && $y >= 0 && $y <= 20000) {
             $this->y = $y;
             return true;
         }
@@ -72,8 +66,7 @@ class Punto
 
     public function setColor($color): bool
     {
-        if (is_string($color) && array_key_exists($color, self::COLORES))
-        {
+        if (is_string($color) && array_key_exists($color, self::COLORES)) {
             $this->color = $color;
             return true;
         }
@@ -83,8 +76,7 @@ class Punto
 
     public function setGrosor($grosor): bool
     {
-        if (is_int($grosor) && array_key_exists($grosor, self::GROSORES))
-        {
+        if (is_int($grosor) && array_key_exists($grosor, self::GROSORES)) {
             $this->grosor = $grosor;
             return true;
         }

@@ -80,6 +80,8 @@ function inicioCuerpo($cabecera)
                 <a href="/aplicacion/relacion4/index.php">Relación 4</a>
                 <span> &gt; </span>
                 <a href="/aplicacion/relacion5/index.php">Relación 5</a>
+                <span> &gt; </span>
+                <a href="/aplicacion/relacion7/index.php">Relación 7</a>
             </nav>
 
 
